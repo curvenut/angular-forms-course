@@ -26,6 +26,12 @@
   <div class="form-field">
     <label>Duration:</label>
     <input [formControl]="duration" />
+    <div
+      class="field-error-message"
+      *ngIf="myForm.controls.duration.dirty && myForm.controls.duration.errors?.validateDuration"
+    >
+      Duration plus petit que 10
+    </div>
   </div>
   <div class="form-field">
     <label>Description:</label>

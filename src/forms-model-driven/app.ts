@@ -18,6 +18,63 @@ import { validateDuration } from './validateDuration';
 })
 export class App {
   myForm: FormGroup;
+  duration = new FormControl(10, [validateDuration, Validators.required]);
+
+  lesson = new Lesson(
+    'title here',
+    0,
+    'Description here',
+    'Transcript here',
+    StudentLevel.ADVANCED
+  );
+
+  constructor(private fb: FormBuilder) {
+    this.buildForm();
+  }
+
+  private buildForm() {
+    this.myForm = this.fb.group({
+      title: [
+        this.lesson.title,
+        [Validators.required, Validators.minLength(10)]
+      ],
+      duration: this.duration,
+      description: [this.lesson.description, [Validators.required]]
+    });
+
+    this.myForm.valueChanges
+      .filter(() => this.myForm.valid)
+      .map(value => {
+        console.log(' map   value=%o', value);
+        return new Lesson(
+          'title here',
+          0,
+          'Description here',
+          'Transcript here',
+          StudentLevel.ADVANCED
+        );
+      })
+      .do(formValue =>
+        console.log(
+          'value  myForm = ' +
+            JSON.stringify(formValue) +
+            '   valid=' +
+            this.myForm.valid
+        )
+      )
+      .subscribe((value: Lesson) => {
+        this.lesson = value;
+      });
+  }
+}
+
+/*
+@Component({
+  selector: 'app',
+  templateUrl: 'template.html'
+})
+export class App {
+  myForm: FormGroup;
 
   duration = new FormControl(10, [validateDuration]);
 
@@ -70,6 +127,9 @@ export class App {
     this.myForm.reset();
   }
 }
+
+
+*/
 
 @NgModule({
   declarations: [App],
