@@ -1,0 +1,37 @@
+<h3>Model Driven Forms</h3>
+
+<form [formGroup]="myForm" autocomplete="off" novalidate>
+  <div class="form-field">
+    <label>Title:</label>
+    <input formControlName="title" required />
+    <div
+      class="field-error-message"
+      *ngIf="
+        myForm.controls.title.dirty &&
+        myForm.controls.title.errors?.required
+      "
+    >
+      field is mandatory
+    </div>
+    <div
+      class="field-error-message"
+      *ngIf="
+        myForm.controls.title.dirty &&
+        myForm.controls.title.errors?.titleExists
+      "
+    >
+      This title already exists !
+    </div>
+  </div>
+  <div class="form-field">
+    <label>Duration:</label>
+    <input [formControl]="duration" />
+  </div>
+  <div class="form-field">
+    <label>Description:</label>
+    <textarea formControlName="description"></textarea>
+  </div>
+  <div class="form-field">
+    <button class="lesson-button" type="submit">Create Lesson</button>
+  </div>
+</form>
